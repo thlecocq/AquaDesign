@@ -19,7 +19,7 @@ generate_species_hv <- function(species_list, rescaled_abiotics,skip_check=FALSE
     print(progression)
     if(!skip_check){
       if (log(length(data[[1]]))>(length(rescaled_abiotics)-1)){  #if there are not enough occurrences for some species, a warning appear
-        hv_species <- capture.output(hypervolume(data, method='svm')) #generate hypervolume with single vector method
+        invisible(capture.output({hv_species <- hypervolume(data, method = "svm")})) #generate hypervolume with single vector method
         hv_species@Name <- species_list[[i]] #set hypervolume name
         hv_list<- hypervolume_join(hv_list, hv_species) #add the hypervolume to the list
       }
@@ -28,7 +28,7 @@ generate_species_hv <- function(species_list, rescaled_abiotics,skip_check=FALSE
       }
     }
     if(skip_check){
-      hv_species <- capture.output(hypervolume(data, method='svm')) #generate hypervolume with single vector method
+      invisible(capture.output({hv_species <- hypervolume(data, method = "svm")})) #generate hypervolume with single vector method
       hv_species@Name <- species_list[[i]] #set hypervolume name
       hv_list<- hypervolume_join(hv_list, hv_species) #add the hypervolume to the list
     }
