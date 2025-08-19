@@ -32,8 +32,10 @@ get_hv_intersection_volumes <- function(hv_list,nb_combi = NA,priority_species=N
   #if there is priorities species specified, remove the combinations which doesn't have any of them
   if (all(!is.na(priority_species))){
     indices_to_remove <- which(!sapply(species_combi, function(comb) any(comb %in% priority_species)))
-	species_combi <- species_combi[-indices_to_remove]
-	numbers_combi <- numbers_combi[-indices_to_remove]
+	if (length(indices_to_remove) > 0) {
+		species_combi <- species_combi[-indices_to_remove]
+		numbers_combi <- numbers_combi[-indices_to_remove]
+	}
   }
 
   #inform about the number of combinations
