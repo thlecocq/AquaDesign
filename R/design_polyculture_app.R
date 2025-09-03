@@ -15,6 +15,9 @@ design_polyculture_app <- function(rescaled_combi_df, species_abiotics_df){
   #get the list of parameters from the dataframe
   selected_abiotics <- as.list(colnames(species_abiotics_df[,-1]))
 
+  #get the list of species from the species_abiotics_dataframe
+  species_list_hv_selected <- unique(species_abiotics_df$species)
+
   #set abiotics names to display
   names(selected_abiotics)[selected_abiotics=="annual_meanT"] <- "Annual mean temperature (°C)"
   names(selected_abiotics)[selected_abiotics=="maxT_WM"] <- "Maximum temperature of the warmest month (°C)"
@@ -37,15 +40,8 @@ design_polyculture_app <- function(rescaled_combi_df, species_abiotics_df){
 
 
   #ask users for the max number of species in combinations
-  nb_combi <- dlg_list(title = "Max n species in combi ?", c(2:(length(hv_list@HVList))))$res
+  nb_combi <- dlg_list(title = "Max n species in combi ?", c(2:(length(species_list_hv_selected))))$res
   nb_combi <- as.numeric(nb_combi)
-
-  #get species list from the hypervolume list
-  species_list_hv_selected <- c()
-  for (i in 1:length(hv_list@HVList)){
-    species_list_hv_selected <- c(species_list_hv_selected, hv_list[[i]]@Name)
-  }
-
 
   #divide temperatures and pH by 10
   species_abiotics_df$annual_meanT <- species_abiotics_df$annual_meanT/10
@@ -218,4 +214,3 @@ design_polyculture_app <- function(rescaled_combi_df, species_abiotics_df){
     }
   )
 }
-
