@@ -37,7 +37,7 @@ design_polyculture_app <- function(rescaled_combi_df, species_abiotics_df){
 
 
   #ask users for the max number of species in combinations
-  nb_combi <- dlg_list(title = "Choose the max number of species in combinations", c(2:(length(hv_list@HVList))))$res
+  nb_combi <- dlg_list(title = "Max n species in combi ?", c(2:(length(hv_list@HVList))))$res
   nb_combi <- as.numeric(nb_combi)
 
   #get species list from the hypervolume list
