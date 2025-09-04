@@ -81,5 +81,8 @@ get_hv_intersection_volumes <- function(hv_list,nb_combi = NA,priority_species=N
   #That way, if the score is 0 (without normalising it), we can be assured there is no abiotic overlap between the two species.
   rescaled_combi_df <- cbind(combi_df[1:nb_combi], apply(combi_df[nb_combi+1], MARGIN = 2, FUN = function(X) X / max(X)))
 
+  #rename col results
+  colnames(rescaled_combi_df) <- c(paste0("species_", seq_len(nb_combi)), "abiotic_score")
+
   return(rescaled_combi_df)
 }
