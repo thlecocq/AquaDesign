@@ -2,6 +2,7 @@
 #'
 #' @param rescaled_combi_df Data frame with rescaled compatibility index
 #' @param species_abiotics_df dataframe with all abiotic variables
+#' @param nb_combi Integer; The max number of species in combination (for example "4", will do all the combinations with 2 species, then all with 3, then all with 4)
 #'
 #' @return Returns nothing
 #' @import ggplot2
@@ -10,13 +11,19 @@
 #' @export
 #'
 #' @examples
-design_polyculture_app <- function(rescaled_combi_df, species_abiotics_df){
+design_polyculture_app <- function(rescaled_combi_df, species_abiotics_df,nb_combi = NA){
 
   #get the list of parameters from the dataframe
   selected_abiotics <- as.list(colnames(species_abiotics_df[,-1]))
 
   #get the list of species from the species_abiotics_dataframe
   species_list_hv_selected <- unique(species_abiotics_df$species)
+  
+  if (is.na(nb_combi)){
+    #ask for the max number of species in combinations
+    nb_combi <- dlg_list(title = "Max n species in combi ?", c(2:(length(species_list_hv_selected))))$res
+    nb_combi <- as.numeric(nb_combi)
+  }
 
   #set abiotics names to display
   names(selected_abiotics)[selected_abiotics=="annual_meanT"] <- "Annual mean temperature (°C)"
@@ -37,11 +44,6 @@ design_polyculture_app <- function(rescaled_combi_df, species_abiotics_df){
   names(selected_abiotics)[selected_abiotics=="prec_WM"] <- "Precipitation of the wettest month (mm)"
   names(selected_abiotics)[selected_abiotics=="prec_DM"] <- "Precipitation of the driest month (mm)"
   names(selected_abiotics)[selected_abiotics=="prec_seasonality"] <- "Precipitation seasonality"
-
-
-  #ask users for the max number of species in combinations
-  nb_combi <- dlg_list(title = "Max n species in combi ?", c(2:(length(species_list_hv_selected))))$res
-  nb_combi <- as.numeric(nb_combi)
 
   #divide temperatures and pH by 10
   species_abiotics_df$annual_meanT <- species_abiotics_df$annual_meanT/10
