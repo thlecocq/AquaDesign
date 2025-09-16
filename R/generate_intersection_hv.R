@@ -1,17 +1,19 @@
 #' Title Calculate the intersection of hypervolumes
 #'
 #' @param hv_list list of species hypervolumes
+#' @param nb_combi Integer; The max number of species in combination (for example "4", will do all the combinations with 2 species, then all with 3, then all with 4)
 #'
 #' @return Returns a list of hypervolumes intersections
 #' @export
 #'
 #' @examples
-generate_intersection_hv <- function (hv_list){
+generate_intersection_hv <- function (hv_list,nb_combi = NA){
 
-  #ask for the max number of species in combinations
-  nb_combi <- dlg_list(title = "Chose the max number of species in combinations",
-                       c(2:(length(hv_list@HVList))))$res
-  nb_combi <- as.numeric(nb_combi)
+  if (is.na(nb_combi)){
+    #ask for the max number of species in combinations
+    nb_combi <- dlg_list(title = "Max n species in combi ?", c(2:(length(hv_list@HVList))))$res
+    nb_combi <- as.numeric(nb_combi)
+  }
 
   species_list_hv_selected <- c()
   for (i in 1:length(hv_list@HVList)) {
